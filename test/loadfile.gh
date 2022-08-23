@@ -1,0 +1,19 @@
+#include <stdio> as io
+#include <stdlib> as lib
+
+#define MEMFILE_FOPEN_ERROR    1
+#define MEMFILE_ALLOC_ERROR    2
+#define MEMFILE_SIZE_WARN      3
+
+typedef struct Memfile
+	union
+		void* ptr;
+		char* str;
+		
+	size size;
+	const char* filename;
+	
+	void* alloc(size size);
+	bool loadFile(const char* filePath, bool isStr = false );
+	void free();
+Memfile;
