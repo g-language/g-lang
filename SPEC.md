@@ -14,12 +14,12 @@ Curly braces (`{` and `}`) are now optional. Outside of scalar initializers and 
 
 C does not define how large or small any integer types should be: `int` is 16-bit on some systems and 32-bit on others. We want to guarantee sizes for each integer type:
 
-| Type | Bits |
-| --- | --- |
-| byte/char | 8   |
-| short | 16  |
-| int | 32  |
-| long | 64  |
+| Type      | Bits |
+| --------- | ---- |
+| byte/char | 8    |
+| short     | 16   |
+| int       | 32   |
+| long      | 64   |
 
 Also unlike C, we want to guarantee consistent signedness. In C, some compilers will treat `char` as `unsigned` by default. In G, all integer types will be `signed` by default.
 
@@ -55,12 +55,12 @@ switch (unhashed "Hello, world!")
 }
 ```
 
-### strong
+### weak
 
-For giving every `enum` its own namespace and throwing warnings or errors when it is used in places it doesn't belong.
+By default, every `enum` has its own namespace and throwing warnings or errors when it is used in places it doesn't belong.
 
 ```c
-strong enum Fruit { Apple, Orange, Banana, Pineapple };
+enum Fruit { Apple, Orange, Banana, Pineapple };
 
 const string *FruitName(enum Fruit Fruit)
 {
@@ -68,16 +68,16 @@ const string *FruitName(enum Fruit Fruit)
 }
 ```
 
-In the above code, the function `FruitName` would not accept an `int` as an argument: only an `enum Fruit`. This is because `enum Fruit` is strongly typed.
+In the above code, the function `FruitName` would not accept an `int` as an argument: only an `enum Fruit`. This is because `enum Fruit` is strongly typed by default.
 
 Strongly typed enumerations also open up the possibility of different enumerated lists containing items of the same name. For example:
 
 ```c
-strong enum LoadFileReturnCode { SUCCESS, ERROR_FREAD, ERROR_OTHER };
-strong enum SaveFileReturnCode { SUCCESS, ERROR_FWRITE, ERROR_OTHER };
+enum LoadFileReturnCode { SUCCESS, ERROR_FREAD, ERROR_OTHER };
+enum SaveFileReturnCode { SUCCESS, ERROR_FWRITE, ERROR_OTHER };
 ```
 
-`strong` may end up being the default behavior, and we instead specify `weak` in places where we want weakly typed variables. Let's discuss this.
+Because `strong` is the default behavior, we have introduced the `weak` keyword for situations where you want to use weakly typed variables. `weak enum Fruit` would function as enumerations ordinarily do in C.
 
 ### list (and similar)
 
@@ -133,9 +133,9 @@ String hashing and/or binary search are used internally to speed up the find-by-
 ## Honorable Mentions
 
 - Optional semicolons (`;`)
-  
+
 - `foreach`
-  
+
 - Nested functions
-  
+
 - Declare-anywhere functions
