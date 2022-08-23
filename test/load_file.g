@@ -1,5 +1,9 @@
 #include <stdio> as io
-#include <stdlib> as NONE
+#include <stdlib> as lib
+
+#define MEMFILE_FOPEN_ERROR    1
+#define MEMFILE_ALLOC_ERROR    2
+#define MEMFILE_SIZE_WARN      3
 
 typedef signed char            s8;
 typedef unsigned char          u8;
@@ -12,7 +16,7 @@ typedef unsigned long long int u64;
 typedef float                  f32;
 typedef double                 f64;
 
-typedef union cast_val
+typedef union CastUnion
 	u8* u8;
 	u16* u16;
 	u32* u32;
@@ -22,16 +26,11 @@ typedef union cast_val
 	s32* s32;
 	s64* s64;
 
-typedef enum memfreturn
-	MEMFILE_FOPEN_ERROR = 1,
-	MEMFILE_ALLOC_ERROR,
-	MEMFILE_SIZE_ERROR,
-
-typedef struct memfile
+typedef struct Memfile
 	union
 		void* ptr;
 		char* str;
-		castval cast;
+		CastUnion cast;
 	// size instead of size_t
 	size size;
 	const char* filename;
@@ -48,17 +47,17 @@ typedef struct memfile
 		strcpy(this.filename, filename);
 		
 		if (!file)
-			return 1;
+			return MEMFILE_FOPEN_ERROR;
 		
 		this.size = file.getSize();
 		if (!this.alloc(this.size))
-			return 2;
+			return MEMFILE_ALLOC_ERROR;
 		
 		sz = file.read(this.data, 1, this.size);
 		
 		if (sz != this.size)
 			this.size = sz;
-			return = 3;
+			return = MEMFILE_SIZE_WARN;
 		
 		io.fclose(file);
 		
@@ -70,19 +69,24 @@ typedef struct memfile
 		memset(this, 0, sizeof(*this));
 
 int main(int n, char** arg)
-	memfile mem = {};
+	Memfile mem = new();
+	
+	if (n != 2)
+		lib.fprintf(lib.stderr, "Please provide an input file! %s <file>", arg[0]);
+		return 1;
 	
 	switch (mem.loadFile("README.md", true))
 		case MEMFILE_FOPEN_ERROR:
-			printf("Failed to fopen file [%s]", mem.filename);
+			lib.fprintf(lib.stdout, "Failed to fopen file [%s]", mem.filename);
 			break;
 		case MEMFILE_ALLOC_ERROR:
-			printf("Failed allocate memfile");
+			lib.fprintf(lib.stdout, "Failed allocate Memfile");
 			break;
 		case MEMFILE_SIZE_ERROR:
-			printf("fread didn't match the expected size while loading file [%s]", mem.filename);
+			lib.fprintf(lib.stdout, "fread didn't match the expected size while loading file [%s]", mem.filename);
 			break;
 	
 	mem.free();
+	delete(mem);
 	
 	return 0;
