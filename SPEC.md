@@ -87,6 +87,35 @@ Builtin support for linked lists, doubly linked lists, and other common programm
 int list mylist = new(1, 2, 3);
 ```
 
+### default
+
+In a data structure, members can be assigned default values:
+
+```c
+struct MyStruct
+{
+    int Wow = 123;
+};
+```
+
+Using `default`, you can check whether its value has changed by testing `if (Wow == default)`.
+
+### private
+
+Variables and functions within a `struct` can be declared as `private` so they aren't accessible outside of its scope.
+
+```c
+struct MyStruct
+{
+    private int Wow = 123;
+    
+    int GetWow(void)
+    {
+        return .Wow;
+    }
+}
+```
+
 ## Optional Arguments
 
 Just like JavaScript:
