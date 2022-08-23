@@ -8,19 +8,19 @@ bool Memfile.loadFile(const char* filename, bool isStr)
 	int return = 0; // We should allow having 'return' variable name
 	size sz;
 	
-	strcpy(this.filename, filename);
+	strcpy(.filename, filename);
 	
 	if (!file)
 		return MEMFILE_FOPEN_ERROR;
 	
 	.size = file.getSize();
-	if (!this.alloc(this.size))
+	if (!.alloc(.size))
 		return MEMFILE_ALLOC_ERROR;
 	
-	sz = file.read(this.data, 1, this.size);
+	sz = file.read(.data, 1, .size);
 	
-	if (sz != this.size)
-		this.size = sz;
+	if (sz != .size)
+		.size = sz;
 		return = MEMFILE_SIZE_WARN;
 	
 	io.fclose(file);
