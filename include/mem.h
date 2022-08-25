@@ -34,6 +34,8 @@ static inline char*line(const char* str, s32 line) {
 		
 		if (!ln++)
 			return NULL;
+		if (*ln == '\r')
+			ln++;
 	}
 	
 	return (char*)ln;

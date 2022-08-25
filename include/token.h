@@ -4,8 +4,6 @@
 #include "str.h"
 
 typedef enum tokentype {
-	TOKEN_WHITESPACE,
-	TOKEN_NEWLINE,
 	TOKEN_VARIABLE,
 	TOKEN_FUNCTION,
 	TOKEN_COMMA,
@@ -14,7 +12,10 @@ typedef enum tokentype {
 	TOKEN_OPEN_CURLY_BRACE,
 	TOKEN_CLOSE_CURLY_BRACE,
 	TOKEN_TYPE,
-	TOKEN_KEYWORD
+	TOKEN_KEYWORD,
+	TOKEN_PREPROCESSOR,
+	TOKEN_OPERATOR,
+	TOKEN_NUMBER,
 } tokentype;
 
 typedef struct token {

@@ -23,7 +23,7 @@ void* Memfile.alloc(size size)
 
 bool Memfile.loadFile(const char* filename, bool isStr)
 	File& file = io.fopen(filename, isStr ? "r" : "rb");
-	int return = 0;
+	int ret = 0;
 	size sz;
 	
 	strcpy(.filename, filename);
@@ -39,11 +39,11 @@ bool Memfile.loadFile(const char* filename, bool isStr)
 	
 	if (sz != .size)
 		.size = sz;
-		return = MEMFILE_SIZE_WARN;
+		ret = MEMFILE_SIZE_WARN;
 	
 	io.fclose(file);
 	
-	return return;
+	return ret;
 
 void Memfile.free()
 	free(.data);

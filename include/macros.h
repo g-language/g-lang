@@ -34,6 +34,8 @@
 
 #define new(type) zalloc(sizeof(type))
 
+#define array_count(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
+
 #define free(data) do { \
 		if (data) free(data); \
 		data = NULL; \
