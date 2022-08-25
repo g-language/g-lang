@@ -1,15 +1,15 @@
 #ifndef MEM_H
 #define MEM_H
 
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include "types.h"
+#include <string.h>
+#include <ctype.h>
+#include <stdarg.h>
 
-// post_free queue
-void *pque(const void *data);
-// post_free free all
-void pfree(void);
+// postfree add to queue
+void *que(const void *data);
+// postfree free queue
+void quefree(void);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
@@ -84,6 +84,18 @@ static inline char *wrdcpy(const char *str)
 static inline char *linecpy(const char *str)
 {
 	return strndup(str, strcspn(str, "\n\r"));
+}
+
+static inline char *fmt(const char *fmt, ...)
+{
+	char *s;
+	va_list va;
+	
+	va_start(va, fmt);
+	vasprintf(&s, fmt, va);
+	va_end(va);
+	
+	return s;
 }
 
 #pragma GCC diagnostic pop

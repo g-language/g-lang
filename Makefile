@@ -1,4 +1,4 @@
-CFLAGS     = -Ofast -I include
+CFLAGS     = -Ofast -I include -Wno-unused-result
 LDFLAGS    =
 
 PRNT_GRAY := \e[0;90m
@@ -40,5 +40,5 @@ bin/%.o: %.c
 	@gcc -c -o $@ $< $(CFLAGS)
 
 gct: $(SRC_O)
-	@echo "$(PRNT_RSET)[$(PRNT_YELW) $(notdir $<) $(PRNT_RSET)]"
+	@echo "$(PRNT_RSET)[$(PRNT_YELW) $(notdir $@) $(PRNT_RSET)]"
 	@gcc -o $@ $^ $(CFLAGS) $(LDFLAGS)

@@ -1,3 +1,6 @@
+#ifndef TYPES_H
+#define TYPES_H
+
 typedef unsigned char      u8;
 typedef signed char        s8;
 typedef unsigned short     u16;
@@ -17,3 +20,7 @@ typedef volatile u32       vu32;
 typedef volatile s32       vs32;
 typedef volatile u64       vu64;
 typedef volatile s64       vs64;
+
+#include "macros.h"
+
+#endif

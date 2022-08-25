@@ -7,29 +7,18 @@ struct post_free_node {
 
 static struct post_free_node *sPostFreeNode;
 
-void *pque(const void *data)
+void *que(const void *data)
 {
-	struct post_free_node **node = &sPostFreeNode;
 	struct post_free_node *new = zalloc(sizeof(struct post_free_node));
-	
-	while (*node)
-		node = &(*node)->next;
-	*node = new;
-	
+	nodeadd(sPostFreeNode, new);
 	return new->data = (void *)data;
 }
 
-void pfree(void)
+void quefree(void)
 {
-	struct post_free_node **cur = &sPostFreeNode;
-	struct post_free_node *kill;
-	
-	while (*cur)
+	while (sPostFreeNode)
 	{
-		kill = *cur;
-		cur = &(*cur)->next;
-		
-		free(kill->data);
-		free(kill);
+		free(sPostFreeNode->data);
+		nodefree(sPostFreeNode, sPostFreeNode);
 	}
 }

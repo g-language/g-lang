@@ -1,4 +1,5 @@
 bin/*
+.atom/*
 compile_flags.txt
 check.sh
 gct
