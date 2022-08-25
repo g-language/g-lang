@@ -38,6 +38,8 @@ bin/%.fmt: %
 bin/%.o: %.c
 	@echo "$(PRNT_RSET)[$(PRNT_PRPL) $(notdir $<) $(PRNT_RSET)]"
 	@gcc -c -o $@ $< $(CFLAGS)
+	@echo -n $(dir $@) > $(@:.o=.d)
+	@gcc -MM $(CFLAGS) $(LDFLAGS) $< >> $(@:.o=.d)
 
 gct: $(SRC_O)
 	@echo "$(PRNT_RSET)[$(PRNT_YELW) $(notdir $@) $(PRNT_RSET)]"

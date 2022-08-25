@@ -23,7 +23,7 @@ void* Memfile.alloc(size size)
 
 bool Memfile.loadFile(const char* filename, bool isStr)
 	File& file = io.fopen(filename, isStr ? "r" : "rb");
-	int return = 0; // We should allow having 'return' variable name
+	int return = 0;
 	size sz;
 	
 	strcpy(.filename, filename);
