@@ -116,6 +116,26 @@ struct MyStruct
 }
 ```
 
+### `static` in structures
+
+Variables within a `struct` can be declared as `static` so that all instances of that structure reference the same value.
+
+```c
+struct MyStruct
+{
+    static int CommonValue = 0;
+}
+
+int main(void)
+{
+    struct MyStruct a;
+    struct MyStruct b;
+    
+    a.CommonValue = 123;
+    printf("%d\n", b.CommonValue); // prints 123
+}
+```
+
 ## Optional Arguments
 
 Just like JavaScript:
