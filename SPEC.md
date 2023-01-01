@@ -98,7 +98,7 @@ struct MyStruct
 };
 ```
 
-Using `default`, you can check whether its value has changed by testing `if (Wow == default)`.
+Using `default`, you can check whether its value has changed by testing `if (Wow == default)`. You can also easily change it back to its default value by writing `Wow = default`.
 
 ### private
 
