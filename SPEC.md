@@ -172,6 +172,25 @@ struct GameInst inst = ...
 inst.sprite = GameSpriteLookup("Player/Jump") // inst.frame = 0 happens on this change
 ```
 
+### `with` statement
+
+Allows for running code within another `struct`'s scope. This reduces redundancy, improving readability.
+
+```
+For example, this...
+sibling.health = 100
+sibling.target = GetPlayer()
+sibling.direction = Normalize()
+sibling.partner = this
+
+... becomes this:
+with (sibling)
+    health = 100
+    target = GetPlayer()
+    direction = Normalize()
+    partner = other.this
+```
+
 ## Optional Arguments
 
 Just like JavaScript:
