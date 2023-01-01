@@ -227,11 +227,11 @@ It's also able to be stacked: `other.other.other.x` or `...x`
 Just like JavaScript:
 
 ```c
-void *LoadFile(const char *Filename, bool IsTextFile = false, void *CustomAllocator(size_t sz) = 0);
+void *LoadFile(const char *Filename, bool IsTextFile = false, size_t *Size = 0);
 
 BinaryData = LoadFile("Hello.bin");
 Data = LoadFile("README.md", true);
-BinaryDataX = LoadFile("Hello.bin", , malloc);
+BinaryData = LoadFile("Hello.bin", , &BinaryDataSize);
 ```
 
 ## Named Arguments
