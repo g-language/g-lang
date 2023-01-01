@@ -138,9 +138,9 @@ int main(void)
 
 ### meta
 
-Allows specifying callbacks that will be fired when certain operations are performed on the most basic types (`int`, `float`, pointers, etc). Think of them as functioning identically to getters and setters without having to manually name or invoke them as functions.
+Allows specifying callbacks that will be fired when certain operations are performed on any resolvable datatype. Think of them as functioning identically to getters and setters without having to manually name or invoke them as functions.
 
-A couple of examples:
+Some examples:
 ```c
 typedef meta float {
     onwrite {
@@ -170,6 +170,15 @@ struct GameInst
 example:
 struct GameInst inst = ...
 inst.sprite = GameSpriteLookup("Player/Jump") // inst.frame = 0 happens on this change
+```
+
+```c
+// a Vec3f type that is guaranteed to always be normalized
+typedef meta Vec3f {
+    onwrite {
+        return Vec3f_Normalize(this);
+    }
+} NVec3f;
 ```
 
 ### `with` statement
