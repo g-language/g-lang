@@ -191,6 +191,28 @@ with (sibling)
     partner = other.this
 ```
 
+### other
+
+The `other` keyword is used to access an outer scope. `.` can be used as shorthand for `other`.
+
+```
+struct Wow {
+    var a;
+    var b;
+    var c;
+    
+    void setup(var a = 0, var b = 1, var c = 2)
+    {
+        other.a = a;
+        other.b = b;
+        .c = c; // shorthand for other.c = c
+    }
+}
+```
+
+It's also able to be stacked: `other.other.other.x` or `...x`
+
+
 ## Optional Arguments
 
 Just like JavaScript:
