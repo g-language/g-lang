@@ -1,0 +1,7 @@
+#include <stdlib.h> as std
+
+int main(int n, const char** arg) {
+        std.printf("Hello World!\n");
+        
+        return 0;
+}
