@@ -141,10 +141,11 @@ int main(void)
 Just like JavaScript:
 
 ```c
-void *LoadFile(const char *Filename, bool IsTextFile = false);
+void *LoadFile(const char *Filename, bool IsTextFile = false, void *CustomAllocator(size_t sz) = 0);
 
 BinaryData = LoadFile("Hello.bin");
 Data = LoadFile("README.md", true);
+BinaryDataX = LoadFile("Hello.bin", , malloc);
 ```
 
 ## Named Arguments
