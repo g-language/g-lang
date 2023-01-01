@@ -117,6 +117,8 @@ void assert(bool condition);
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 void* mem_new(const size_t);
+#define new(type)  mem_new(sizeof(type))
+#define newz(size) mem_new(size)
 
 #ifndef FOOL_THE_IDE
 void* mem_free(const void*);
@@ -133,9 +135,6 @@ void* mem_free(const void*);
 void fswap(const void* f, const void* swap);
 void* free(const void*, ...);
 #endif // FOOL_THE_IDE
-
-#define new(type)  mem_new(sizeof(type))
-#define newz(size) mem_new(size)
 
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
