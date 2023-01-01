@@ -136,6 +136,42 @@ int main(void)
 }
 ```
 
+### meta
+
+Allows specifying callbacks that will be fired when certain operations are performed on the most basic types (`int`, `float`, pointers, etc). Think of them as functioning identically to getters and setters without having to manually name or invoke them as functions.
+
+A couple of examples:
+```c
+typedef meta float {
+    onwrite {
+        return wrap(this, -180.0f, 180.0f);
+    }
+} DegF;
+
+example:
+DegF v = 178;
+v += 1; // 179
+v += 1; // 180
+v += 1; // v = 181, v = v.onwrite(), v = -180
+```
+
+```c
+struct GameInst
+{
+    meta struct GameSprite *sprite {
+        onwrite {
+            .frame = 0 // . selects outer scope
+            return this
+        }
+    }
+    int frame = 0
+};
+
+example:
+struct GameInst inst = ...
+inst.sprite = GameSpriteLookup("Player/Jump") // inst.frame = 0 happens on this change
+```
+
 ## Optional Arguments
 
 Just like JavaScript:
