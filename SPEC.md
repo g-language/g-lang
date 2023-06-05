@@ -4,7 +4,7 @@ The G programming language is intended to be an extension of the C programming l
 
 We'll either be using LLVM or transpiling to C89 directly: whatever offers the most flexibility long-term.
 
-This is a living, breathing document that is still a major work-in-progress and subject to change.
+This is a living, breathing document that is still a major work-in-progress and subject to change. Picture a messy idea board.
 
 ## Braces and Indentation
 
@@ -141,6 +141,7 @@ int main(void)
 Allows specifying callbacks that will be fired when certain operations are performed on any resolvable datatype. Think of them as functioning identically to getters and setters without having to manually name or invoke them as functions.
 
 Some examples:
+
 ```c
 typedef meta float {
     onwrite {
@@ -221,6 +222,94 @@ struct Wow {
 
 It's also able to be stacked: `other.other.other.x` or `...x`
 
+## Generic Classes
+
+Single-use classes that may or not have locally accessible names (`tmp`, in the example below).
+
+```c
+struct tmp {
+    int x = 10
+    int y = 20
+
+    int z(void)
+    {
+        return x + y
+    }
+} a
+
+int x = a.z()
+var z = tmp.z() // not practical in this example, but you can
+var foo = tmp // this references the class itself: not an instance of it
+tmp b // stack allocation (runs ctor if applicable)
+var bar = new(foo) // heap allocation (runs ctor if applicable)
+delete bar // heap deallocation (runs dtor if applicable)
+// when b falls out of scope, its dtor is invoked if applicable
+```
+
+I like this idea for handling payloads and their associated callbacks in a very succinct way:
+
+```c
+// function prototype
+// (only here to illustrate the call to it below)
+void AddButton(
+    string text
+    , void *payload
+    , void onClick()
+    , void onHover()
+)
+
+// G code
+ui.AddButton(
+    "Hello world"
+    , var t = new(struct {
+        var parent = this
+        int x = 10
+        int y = 20
+
+        void OnClick()
+        {
+            PrintLn("%d", x)
+        }
+
+        void OnHover()
+        {
+            PrintLn("%d", y)
+        }
+    })
+    , t.OnClick
+    , t.OnHover
+)
+
+// generated C89 code
+struct anonymous_d086fd5a
+{
+    void *parent;
+    int x;
+    int y;
+};
+void anonymous_d086fd5a_OnClick(
+    struct anonymous_d086fd5a *this
+)
+{
+    PrintLn("%d", this->x);
+}
+void anonymous_d086fd5a_OnHover(
+    struct anonymous_d086fd5a *this
+)
+{
+    PrintLn("%d", this->y);
+}
+// (somewhere inside the scope of some class function):
+struct anonymous_d086fd5a tmp_c8f7 = { this, x, y };
+anonymous_d086fd5a_ctor(&tmp_c8f7);
+Ui_AddButton(
+    ui
+    , "Hello world"
+    , memdup(tmp_c8f7, sizeof(*tmp_c8f7))
+    , anonymous_d086fd5a_OnClick
+    , anonymous_d086fd5a_OnHover
+);
+```
 
 ## Optional Arguments
 
@@ -274,4 +363,6 @@ String hashing and/or binary search are used internally to speed up the find-by-
 
 - Nested functions
 
-- Declare-anywhere functions
+- Declare-anywhere functions (basically C++11 lambda expressions)
+
+- No sequence-point shenanigans involving execution order of comma-separated code `if (a) b = a + 1, c = b + 1`
